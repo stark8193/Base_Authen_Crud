@@ -2,9 +2,12 @@ package com.devteria.identity_service.mapper;
 
 
 import com.devteria.identity_service.dto.request.LeaveRequestRequest;
+import com.devteria.identity_service.dto.request.LeaveTypeRequest;
 import com.devteria.identity_service.dto.response.LeaveRequestResponse;
 import com.devteria.identity_service.entity.LeaveRequest;
+import com.devteria.identity_service.entity.LeaveType;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface LeaveRequestMapper {
@@ -24,4 +27,6 @@ public interface LeaveRequestMapper {
                 .leaveTypeName(leaveRequest.getLeaveType() != null ? leaveRequest.getLeaveType().getLeaveTypeName() : null)
                 .build();
     }
+
+    void updateLeaveRequest(@MappingTarget LeaveRequest leaveRequest, LeaveRequestRequest request);
 }

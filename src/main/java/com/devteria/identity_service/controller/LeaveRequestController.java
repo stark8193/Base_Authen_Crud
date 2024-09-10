@@ -29,30 +29,30 @@ public class LeaveRequestController {
                 .build();
     }
 
-//    @GetMapping
-//    ApiResponse<List<LeaveRequestResponse>> getAllLeaveRequest() {
-//        return ApiResponse.<List<LeaveRequestResponse>>builder()
-//                .data(leaveRequestService.getAllLeaveRequest())
-//                .build();
-//    }
-//
-//    @GetMapping("/{leaveTypeId}")
-//    ApiResponse<LeaveRequestResponse> getLeaveRequest(@PathVariable("leaveTypeId") String leaveTypeId) {
-//        return ApiResponse.<LeaveRequestResponse>builder()
-//                .data(leaveRequestService.getLeaveRequest(leaveTypeId))
-//                .build();
-//    }
-//
-//    @DeleteMapping("/{leaveTypeId}")
-//    ApiResponse<String> deleteLeaveRequest(@PathVariable String leaveTypeId) {
-//        leaveRequestService.deleteLeaveRequest(leaveTypeId);
-//        return ApiResponse.<String>builder().data("leaveRequest has been deleted").build();
-//    }
-//
-//    @PutMapping("/{leaveTypeId}")
-//    ApiResponse<LeaveRequestResponse> updateLeaveRequest(@PathVariable String leaveTypeId, @RequestBody LeaveRequestRequest request) {
-//        return ApiResponse.<LeaveRequestResponse>builder()
-//                .data(leaveRequestService.updateLeaveRequest(leaveTypeId, request))
-//                .build();
-//    }
+    @GetMapping
+    ApiResponse<List<LeaveRequestResponse>> getAllLeaveRequest() {
+        return ApiResponse.<List<LeaveRequestResponse>>builder()
+                .data(leaveRequestService.getAllLeaveRequest())
+                .build();
+    }
+
+    @GetMapping("/{leaveTypeId}")
+    ApiResponse<LeaveRequestResponse> getLeaveRequest(@PathVariable("leaveTypeId") String leaveTypeId) {
+        return ApiResponse.<LeaveRequestResponse>builder()
+                .data(leaveRequestService.getLeaveRequest(leaveTypeId))
+                .build();
+    }
+
+    @DeleteMapping("/{leaveTypeId}")
+    ApiResponse<String> deleteLeaveRequest(@PathVariable String leaveTypeId) {
+        leaveRequestService.deleteLeaveRequest(leaveTypeId);
+        return ApiResponse.<String>builder().data("leaveRequest has been deleted").build();
+    }
+
+    @PutMapping("/{leaveTypeId}")
+    ApiResponse<LeaveRequestResponse> updateLeaveRequest(@PathVariable String leaveTypeId, @RequestBody LeaveRequestRequest request) {
+        return ApiResponse.<LeaveRequestResponse>builder()
+                .data(leaveRequestService.updateLeaveRequest(leaveTypeId, request))
+                .build();
+    }
 }

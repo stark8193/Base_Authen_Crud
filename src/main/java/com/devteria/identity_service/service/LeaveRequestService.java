@@ -1,6 +1,7 @@
 package com.devteria.identity_service.service;
 
 import com.devteria.identity_service.dto.request.LeaveRequestRequest;
+import com.devteria.identity_service.dto.request.LeaveTypeRequest;
 import com.devteria.identity_service.dto.response.LeaveRequestResponse;
 import com.devteria.identity_service.entity.LeaveRequest;
 import com.devteria.identity_service.exception.AppException;
@@ -12,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,4 +36,33 @@ public class LeaveRequestService {
         leaveRequest = leaveRequestRepository.save(leaveRequest);
         return  leaveRequestMapper.toLeaveRequestResponse(leaveRequest);
     }
+
+    public List<LeaveRequestResponse> getAllLeaveRequest(){
+        return leaveRequestRepository.findAll().stream()
+                .map(leaveRequestMapper::toLeaveRequestResponse).toList();
+    }
+
+    public LeaveRequestResponse getLeaveRequest(String id){
+        LeaveRequest leaveRequest = leaveRequestRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.LEAVE_REQUEST_NOT_EXISTED)
+        );
+        return leaveRequestMapper.toLeaveRequestResponse(leaveRequest);
+    }
+
+    public void deleteLeaveRequest(String id){
+        leaveRequestRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.LEAVE_REQUEST_NOT_EXISTED)
+        );
+        leaveRequestRepository.deleteById(id);
+    }
+
+    public LeaveRequestResponse updateLeaveRequest(String id, LeaveRequestRequest request){
+        LeaveRequest leaveRequest = leaveRequestRepository.findById(id).orElseThrow(
+                () -> new AppException(ErrorCode.LEAVE_REQUEST_NOT_EXISTED)
+        );
+        leaveRequestMapper.updateLeaveRequest(leaveRequest, request);
+        leaveRequest = leaveRequestRepository.save(leaveRequest);
+        return leaveRequestMapper.toLeaveRequestResponse(leaveRequest);
+    }
+
 }

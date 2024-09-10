@@ -15,5 +15,5 @@ public interface LeaveTypeMapper {
 
     LeaveTypeResponse toLeaveTypeResponse(LeaveType leaveType);
 
-    void updateLeaveType(@MappingTarget LeaveType employee, LeaveTypeRequest request);
+    void updateLeaveType(@MappingTarget LeaveType leaveType, LeaveTypeRequest request);
 }
