@@ -2,6 +2,8 @@ package com.devteria.identity_service.dto.request;
 
 import java.time.LocalDate;
 
+import com.devteria.identity_service.entity.Employee;
+import com.devteria.identity_service.entity.enumeration.UserStatus;
 import jakarta.validation.constraints.Size;
 
 import com.devteria.identity_service.validator.DobConstraint;
@@ -21,9 +23,7 @@ public class UserCreationRequest {
     @Size(min = 6, message = "INVALID_PASSWORD")
     String password;
 
-    String firstName;
-    String lastName;
+    Employee employee;
 
-    @DobConstraint(min = 10, message = "INVALID_DOB")
-    LocalDate dob;
+    UserStatus userStatus;
 }

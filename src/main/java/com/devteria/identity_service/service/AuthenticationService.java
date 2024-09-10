@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.StringJoiner;
 import java.util.UUID;
 
+import com.devteria.identity_service.entity.Employee;
+import com.devteria.identity_service.entity.Role;
+import com.devteria.identity_service.repository.EmployeeRepository;
+import com.devteria.identity_service.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,7 +47,10 @@ import lombok.extern.slf4j.Slf4j;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationService {
     UserRepository userRepository;
+    EmployeeRepository employeeRepository;
+    RoleRepository roleRepository;
     InvalidatedTokenRepository invalidatedTokenRepository;
+
 
     @NonFinal
     @Value("${jwt.signerKey}")
@@ -76,11 +83,14 @@ public class AuthenticationService {
                 .findByUsername(request.getUsername())
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
+        var employee = employeeRepository.findById(user.getEmployee().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
+
         boolean authenticated = passwordEncoder.matches(request.getPassword(), user.getPassword());
 
         if (!authenticated) throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        var token = generateToken(user);
+        var token = generateToken(employee);
 
         return AuthenticationResponse.builder().token(token).authenticated(true).build();
     }
@@ -115,24 +125,28 @@ public class AuthenticationService {
         var username = signedJWT.getJWTClaimsSet().getSubject();
 
         var user =
-                userRepository.findByUsername(username).orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
+                userRepository.findByUsername(username)
+                        .orElseThrow(() -> new AppException(ErrorCode.UNAUTHENTICATED));
 
-        var token = generateToken(user);
+        var employee = employeeRepository.findById(user.getEmployee().getId())
+                .orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND));
+
+        var token = generateToken(employee);
 
         return AuthenticationResponse.builder().token(token).authenticated(true).build();
     }
 
-    private String generateToken(User user) {
+    private String generateToken(Employee employee) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(user.getUsername())
-                .issuer("devteria.com")
+                .subject(employee.getEmployeeName())
+                .issuer("luandev.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(VALID_DURATION, ChronoUnit.SECONDS).toEpochMilli()))
                 .jwtID(UUID.randomUUID().toString())
-                .claim("scope", buildScope(user))
+                .claim("scope", buildScope(employee))
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -172,16 +186,13 @@ public class AuthenticationService {
         return signedJWT;
     }
 
-    private String buildScope(User user) {
+    private String buildScope(Employee employee) {
         StringJoiner stringJoiner = new StringJoiner(" ");
 
-        if (!CollectionUtils.isEmpty(user.getRoles()))
-            user.getRoles().forEach(role -> {
-                stringJoiner.add("ROLE_" + role.getName());
-                if (!CollectionUtils.isEmpty(role.getPermissions()))
-                    role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
-            });
+        Role role = roleRepository.findById(employee.getRole().getId())
+                .orElseThrow(()-> new AppException(ErrorCode.UNAUTHENTICATED));
 
+        stringJoiner.add("ROLE_" + role.getRole_name());
         return stringJoiner.toString();
     }
 }

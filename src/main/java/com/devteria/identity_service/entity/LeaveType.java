@@ -1,9 +1,10 @@
 package com.devteria.identity_service.entity;
 
-import com.devteria.identity_service.entity.enumeration.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -12,22 +13,17 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class User {
+@Table(name = "leave_type")
+public class LeaveType implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
-    String id;
+    private String id;
 
-    @Column(name = "username")
-    String username;
+    @Column(name = "leave_type_name")
+    private String leaveTypeName;
 
-    @Column(name = "password")
-    String password;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_status")
-    UserStatus userStatus;
-
-    @OneToOne
-    Employee employee;
+    @Column(name = "description")
+    private String description;
 }

@@ -2,9 +2,7 @@ package com.devteria.identity_service.entity;
 
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,10 +16,10 @@ import lombok.experimental.FieldDefaults;
 @Entity
 public class Role {
     @Id
-    String name;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id")
+    String id;
 
-    String description;
-
-    @ManyToMany
-    Set<Permission> permissions;
+    @Column(name = "role_name")
+    String role_name;
 }

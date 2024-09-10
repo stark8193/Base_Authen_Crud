@@ -1,12 +1,12 @@
 #spring.application.name=identity-service
 server:
   port: 8001
-  servlet:
-    context-path: /identity
+#  servlet:
+#    context-path: /identity
 
 spring:
   datasource:
-    url: "jdbc:mysql://localhost:3307/identity_service"
+    url: "jdbc:mysql://localhost:3307/test_btl"
     username: root
     password: root
   jpa:
@@ -17,3 +17,7 @@ jwt:
   signerKey: "TgxvdxikRZHZ2cuJzW2ovQHn2iVTROFecLmYHi8ZJRe8cWejAU7WF+rw4zaInvgL"
   valid-duration: 3600 # in second
   refreshable-duration: 36000 # in seconds
+notification:
+  email:
+    brevo-url: https://api.brevo.com
+    brevo-apikey: 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

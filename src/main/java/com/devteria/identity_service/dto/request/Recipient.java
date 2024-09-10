@@ -1,14 +1,14 @@
-package com.devteria.identity_service.dto.response;
+package com.devteria.identity_service.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PermissionResponse {
+public class Recipient {
     String name;
-    String description;
+    String email;
 }

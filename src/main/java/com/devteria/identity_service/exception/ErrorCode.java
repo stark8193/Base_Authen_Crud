@@ -16,6 +16,13 @@ public enum ErrorCode {
     UNAUTHENTICATED(1006, "Unauthenticated", HttpStatus.UNAUTHORIZED),
     UNAUTHORIZED(1007, "You do not have permission", HttpStatus.FORBIDDEN),
     INVALID_DOB(1008, "Your age must be at least {min}", HttpStatus.BAD_REQUEST),
+    ROLE_EXISTED(1009, "Role existed", HttpStatus.BAD_REQUEST),
+    ROLE_NOT_EXISTED(1011, "Role not existed", HttpStatus.BAD_REQUEST),
+    EMPLOYEE_NOT_FOUND(1010, "Employee not existed", HttpStatus.BAD_REQUEST),
+    CANNOT_SEND_EMAIL(1012, "CANNOT_SEND_EMAIL", HttpStatus.BAD_REQUEST),
+    LEAVE_TYPE_NAME_EXISTED(1013, "LEAVE_TYPE_NAME_EXISTED", HttpStatus.BAD_REQUEST),
+    LEAVE_TYPE_NOT_EXISTED(1014, "LEAVE_TYPE_NOT_EXISTED", HttpStatus.BAD_REQUEST),
+    CANNOT_CREATE_LEAVE_REQUEST(1015, "CANNOT_CREATE_LEAVE_REQUEST", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {
