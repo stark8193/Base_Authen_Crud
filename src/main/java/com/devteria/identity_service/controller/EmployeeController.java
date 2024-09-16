@@ -29,14 +29,26 @@ public class EmployeeController {
                 .build();
     }
 
+//    @GetMapping
+//    ApiResponse<List<EmployeeResponse>> getAllEmp() {
+//        var authen = SecurityContextHolder.getContext().getAuthentication();
+//        log.info("USERNAME: {}",authen.getName());
+//        authen.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+//
+//        return ApiResponse.<List<EmployeeResponse>>builder()
+//                .data(employeeService.getAllEmp())
+//                .build();
+//    }
+
     @GetMapping
-    ApiResponse<List<EmployeeResponse>> getAllEmp() {
-        var authen = SecurityContextHolder.getContext().getAuthentication();
-        log.info("USERNAME: {}",authen.getName());
-        authen.getAuthorities().forEach(grantedAuthority -> log.info(grantedAuthority.getAuthority()));
+    ApiResponse<List<EmployeeResponse>> getAllEmpWithPage(
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
+    ) {
 
         return ApiResponse.<List<EmployeeResponse>>builder()
-                .data(employeeService.getAllEmp())
+                .data(employeeService.getAllEmpWithPage(page, size, sort))
                 .build();
     }
 
