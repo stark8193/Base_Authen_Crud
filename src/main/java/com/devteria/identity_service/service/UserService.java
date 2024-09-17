@@ -3,7 +3,9 @@ package com.devteria.identity_service.service;
 import com.devteria.identity_service.dto.request.AuthenticationRequest;
 import com.devteria.identity_service.dto.request.UserCreationRequest;
 import com.devteria.identity_service.dto.request.UserUpdateRequest;
+import com.devteria.identity_service.dto.response.EmployeeResponse;
 import com.devteria.identity_service.dto.response.UserResponse;
+import com.devteria.identity_service.entity.Employee;
 import com.devteria.identity_service.entity.User;
 import com.devteria.identity_service.exception.AppException;
 import com.devteria.identity_service.exception.ErrorCode;
@@ -13,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -20,7 +23,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -57,17 +62,30 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<UserResponse> getUsers(Integer page, Integer size, String sort) {
+    public Map<String, Object> getAllUsersWithPage(Integer page, Integer size, String sort) {
         Sort sortable = null;
-        if (sort.equals("ASC")) {
-            sortable = Sort.by("employeeName").ascending();
+        if (sort.equalsIgnoreCase("ASC")) {
+            sortable = Sort.by("username").ascending();
+        } else if (sort.equalsIgnoreCase("DESC")) {
+            sortable = Sort.by("username").descending();
         }
-        if (sort.equals("DESC")) {
-            sortable = Sort.by("employeeName").descending();
-        }
+
         Pageable pageable = PageRequest.of(page, size, sortable);
-        return userRepository.findAll(pageable).stream().map(userMapper::toUserResponse).toList();
+
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        List<UserResponse> users = userPage.getContent()
+                .stream()
+                .map(userMapper::toUserResponse)
+                .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("users", users);
+        response.put("totalItems", userPage.getTotalElements());
+        response.put("totalPages", userPage.getTotalPages());
+        response.put("currentPage", userPage.getNumber());
+
+        return response;
     }
 
 //    @PreAuthorize("hasRole('ADMIN')")

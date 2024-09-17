@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employees")
@@ -40,17 +41,19 @@ public class EmployeeController {
 //                .build();
 //    }
 
-    @GetMapping
-    ApiResponse<List<EmployeeResponse>> getAllEmpWithPage(
+    @GetMapping("/paged")
+    ApiResponse<Map<String, Object>> getAllEmpWithPage(
             @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
             @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
     ) {
+        Map<String, Object> data = employeeService.getAllEmpWithPage(page, size, sort);
 
-        return ApiResponse.<List<EmployeeResponse>>builder()
-                .data(employeeService.getAllEmpWithPage(page, size, sort))
+        return ApiResponse.<Map<String, Object>>builder()
+                .data(data)
                 .build();
     }
+
 
     @GetMapping("/{empId}")
     ApiResponse<EmployeeResponse> getEmp(@PathVariable("empId") String empId) {

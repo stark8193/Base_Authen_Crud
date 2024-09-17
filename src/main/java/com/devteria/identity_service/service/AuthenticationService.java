@@ -192,7 +192,7 @@ public class AuthenticationService {
         Role role = roleRepository.findById(employee.getRole().getId())
                 .orElseThrow(()-> new AppException(ErrorCode.UNAUTHENTICATED));
 
-        stringJoiner.add("ROLE_" + role.getRole_name());
+        stringJoiner.add("ROLE_" + role.getRoleName());
         return stringJoiner.toString();
     }
 }

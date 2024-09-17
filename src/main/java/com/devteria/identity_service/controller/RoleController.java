@@ -1,6 +1,7 @@
 package com.devteria.identity_service.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +31,15 @@ public class RoleController {
     }
 
     @GetMapping
-    ApiResponse<List<RoleResponse>> getAll(
+    ApiResponse<Map<String, Object>> getAllRolesWithPage(
             @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
             @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
     ) {
-        return ApiResponse.<List<RoleResponse>>builder()
-                .data(roleService.getAll(page, size, sort))
+        Map<String, Object> data = roleService.getAllRolesWithPage(page, size, sort);
+
+        return ApiResponse.<Map<String, Object>>builder()
+                .data(data)
                 .build();
     }
 

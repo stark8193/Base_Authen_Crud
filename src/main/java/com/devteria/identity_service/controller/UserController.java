@@ -1,6 +1,7 @@
 package com.devteria.identity_service.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import jakarta.validation.Valid;
 
@@ -33,13 +34,16 @@ public class UserController {
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getUsers(
+    ApiResponse<Map<String, Object>> getAllUsersWithPage(
             @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
             @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
     ) {
-        return ApiResponse.<List<UserResponse>>builder()
-                .data(userService.getUsers(page, size, sort))
+
+        Map<String, Object> data = userService.getAllUsersWithPage(page, size, sort);
+
+        return ApiResponse.<Map<String, Object>>builder()
+                .data(data)
                 .build();
     }
 

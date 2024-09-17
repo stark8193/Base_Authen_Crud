@@ -19,13 +19,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -80,17 +83,32 @@ public class EmployeeService {
         return employeeRepository.findAll().stream().map(employeeMapper::toEmployeeResponse).toList();
     }
 
-    public List<EmployeeResponse> getAllEmpWithPage(Integer page, Integer size, String sort){
+    public Map<String, Object> getAllEmpWithPage(Integer page, Integer size, String sort) {
         Sort sortable = null;
-        if (sort.equals("ASC")) {
+        if (sort.equalsIgnoreCase("ASC")) {
             sortable = Sort.by("employeeName").ascending();
-        }
-        if (sort.equals("DESC")) {
+        } else if (sort.equalsIgnoreCase("DESC")) {
             sortable = Sort.by("employeeName").descending();
         }
+
         Pageable pageable = PageRequest.of(page, size, sortable);
-        return  employeeRepository.findAll(pageable).stream().map(employeeMapper::toEmployeeResponse).toList();
+
+        Page<Employee> employeePage = employeeRepository.findAll(pageable);
+
+        List<EmployeeResponse> employees = employeePage.getContent()
+                .stream()
+                .map(employeeMapper::toEmployeeResponse)
+                .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("employees", employees);
+        response.put("totalItems", employeePage.getTotalElements());
+        response.put("totalPages", employeePage.getTotalPages());
+        response.put("currentPage", employeePage.getNumber());        
+
+        return response;
     }
+
 
     public EmployeeResponse getEmp(String id){
         return employeeMapper.toEmployeeResponse(employeeRepository.findById(id).orElseThrow(() -> new AppException(ErrorCode.EMPLOYEE_NOT_FOUND)));
