@@ -30,9 +30,13 @@ public class RoleController {
     }
 
     @GetMapping
-    ApiResponse<List<RoleResponse>> getAll() {
+    ApiResponse<List<RoleResponse>> getAll(
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
+    ) {
         return ApiResponse.<List<RoleResponse>>builder()
-                .data(roleService.getAll())
+                .data(roleService.getAll(page, size, sort))
                 .build();
     }
 

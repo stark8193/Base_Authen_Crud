@@ -33,9 +33,13 @@ public class UserController {
     }
 
     @GetMapping
-    ApiResponse<List<UserResponse>> getUsers() {
+    ApiResponse<List<UserResponse>> getUsers(
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
+    ) {
         return ApiResponse.<List<UserResponse>>builder()
-                .data(userService.getUsers())
+                .data(userService.getUsers(page, size, sort))
                 .build();
     }
 

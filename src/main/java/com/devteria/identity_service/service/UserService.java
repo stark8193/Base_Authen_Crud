@@ -13,6 +13,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,10 +57,17 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    @PreAuthorize("hasRole('USER') || hasRole('ADMIN')")
-    public List<UserResponse> getUsers() {
-        log.info("In method get Users");
-        return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UserResponse> getUsers(Integer page, Integer size, String sort) {
+        Sort sortable = null;
+        if (sort.equals("ASC")) {
+            sortable = Sort.by("employeeName").ascending();
+        }
+        if (sort.equals("DESC")) {
+            sortable = Sort.by("employeeName").descending();
+        }
+        Pageable pageable = PageRequest.of(page, size, sortable);
+        return userRepository.findAll(pageable).stream().map(userMapper::toUserResponse).toList();
     }
 
 //    @PreAuthorize("hasRole('ADMIN')")

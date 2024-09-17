@@ -10,6 +10,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,8 +31,16 @@ public class RoleService {
         return roleMapper.toRoleResponse(role);
     }
 
-    public List<RoleResponse> getAll() {
-        return roleRepository.findAll().stream().map(roleMapper::toRoleResponse).toList();
+    public List<RoleResponse> getAll(Integer page, Integer size, String sort) {
+        Sort sortable = null;
+        if (sort.equals("ASC")) {
+            sortable = Sort.by("employeeName").ascending();
+        }
+        if (sort.equals("DESC")) {
+            sortable = Sort.by("employeeName").descending();
+        }
+        Pageable pageable = PageRequest.of(page, size, sortable);
+        return roleRepository.findAll(pageable).stream().map(roleMapper::toRoleResponse).toList();
     }
 
     public RoleResponse getRole(String id) {
