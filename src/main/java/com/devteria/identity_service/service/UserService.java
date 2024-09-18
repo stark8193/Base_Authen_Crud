@@ -3,9 +3,7 @@ package com.devteria.identity_service.service;
 import com.devteria.identity_service.dto.request.AuthenticationRequest;
 import com.devteria.identity_service.dto.request.UserCreationRequest;
 import com.devteria.identity_service.dto.request.UserUpdateRequest;
-import com.devteria.identity_service.dto.response.EmployeeResponse;
 import com.devteria.identity_service.dto.response.UserResponse;
-import com.devteria.identity_service.entity.Employee;
 import com.devteria.identity_service.entity.User;
 import com.devteria.identity_service.exception.AppException;
 import com.devteria.identity_service.exception.ErrorCode;
@@ -19,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
