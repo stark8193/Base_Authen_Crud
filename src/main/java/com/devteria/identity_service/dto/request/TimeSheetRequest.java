@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class TimeSheetRequest {
-    LocalDateTime timeIn;
+//    LocalDateTime timeIn;
 
     LocalDateTime  timeOut;
 
