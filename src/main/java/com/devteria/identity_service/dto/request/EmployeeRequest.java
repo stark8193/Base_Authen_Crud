@@ -1,5 +1,6 @@
 package com.devteria.identity_service.dto.request;
 
+import com.devteria.identity_service.entity.Department;
 import com.devteria.identity_service.entity.Role;
 import com.devteria.identity_service.entity.enumeration.EmpStatus;
 import com.devteria.identity_service.entity.enumeration.Gender;
@@ -52,4 +53,6 @@ public class EmployeeRequest {
     String photoPath;
 
     Role role;
+
+    Department department;
 }

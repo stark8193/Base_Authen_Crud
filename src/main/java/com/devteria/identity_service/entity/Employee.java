@@ -5,7 +5,6 @@ import com.devteria.identity_service.entity.enumeration.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.mapping.ToOne;
 
 import java.time.LocalDate;
 
@@ -70,4 +69,7 @@ public class Employee{
 
     @ManyToOne
     Role role;
+
+    @ManyToOne
+    Department department;
 }

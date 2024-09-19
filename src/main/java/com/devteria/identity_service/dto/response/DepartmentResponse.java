@@ -9,9 +9,6 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class DepartmentResponse {
-
-    private Long depID;
     private String depName;
     private String depShortName;
-    private String managerName;
 }

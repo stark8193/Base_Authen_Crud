@@ -7,7 +7,6 @@ import com.devteria.identity_service.dto.request.UserCreationRequest;
 import com.devteria.identity_service.dto.response.EmployeeResponse;
 import com.devteria.identity_service.dto.response.RoleResponse;
 import com.devteria.identity_service.entity.Employee;
-import com.devteria.identity_service.entity.Role;
 import com.devteria.identity_service.entity.enumeration.UserStatus;
 import com.devteria.identity_service.exception.AppException;
 import com.devteria.identity_service.exception.ErrorCode;

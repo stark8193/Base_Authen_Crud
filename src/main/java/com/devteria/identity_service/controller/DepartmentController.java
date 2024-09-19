@@ -49,7 +49,7 @@ public class DepartmentController {
 
     @PutMapping("/{depId}")
     ApiResponse<DepartmentResponse> updateEmp(@PathVariable("depId") String empId, @RequestBody DepartmentRequest request) {
-        return ApiResponse.<DepartmentResponse>builder()
+        return ApiResponse. <DepartmentResponse>builder()
                 .data(departmentService.updateDep(empId, request))
                 .build();
     }

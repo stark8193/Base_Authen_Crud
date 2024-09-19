@@ -19,7 +19,4 @@ public class DepartmentRequest {
     @Size(max = 3, message = "Department short name must be less than or equal to 3 characters")
     private String depShortName;
 
-    @NotNull(message = "Manager ID is required")
-    private Long manageID;
-
 }
