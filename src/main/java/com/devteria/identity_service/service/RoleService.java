@@ -55,7 +55,7 @@ public class RoleService {
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("roles", roles);
+        response.put("data", roles);
         response.put("totalItems", rolePage.getTotalElements());
         response.put("totalPages", rolePage.getTotalPages());
         response.put("currentPage", rolePage.getNumber());

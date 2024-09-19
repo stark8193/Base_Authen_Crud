@@ -76,7 +76,7 @@ public class UserService {
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("users", users);
+        response.put("data", users);
         response.put("totalItems", userPage.getTotalElements());
         response.put("totalPages", userPage.getTotalPages());
         response.put("currentPage", userPage.getNumber());

@@ -19,6 +19,7 @@ public enum ErrorCode {
     ROLE_EXISTED(1009, "Role existed", HttpStatus.BAD_REQUEST),
     ROLE_NOT_EXISTED(1011, "Role not existed", HttpStatus.BAD_REQUEST),
     EMPLOYEE_NOT_FOUND(1010, "Employee not existed", HttpStatus.BAD_REQUEST),
+    NOT_FOUND(1010, "Data not existed", HttpStatus.BAD_REQUEST),
     CANNOT_SEND_EMAIL(1012, "CANNOT_SEND_EMAIL", HttpStatus.BAD_REQUEST),
     LEAVE_TYPE_NAME_EXISTED(1013, "LEAVE_TYPE_NAME_EXISTED", HttpStatus.BAD_REQUEST),
     LEAVE_TYPE_NOT_EXISTED(1014, "LEAVE_TYPE_NOT_EXISTED", HttpStatus.BAD_REQUEST),
