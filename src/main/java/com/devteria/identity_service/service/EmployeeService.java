@@ -1,5 +1,6 @@
 package com.devteria.identity_service.service;
 
+import com.devteria.identity_service.dto.ApiQueryResponse;
 import com.devteria.identity_service.dto.request.EmployeeRequest;
 import com.devteria.identity_service.dto.request.Recipient;
 import com.devteria.identity_service.dto.request.SendEmailRequest;
@@ -129,5 +130,15 @@ public class EmployeeService {
 
     public long empCount(String departId){
         return employeeRepository.countByDepartmentId(departId);
+    }
+
+    public List<ApiQueryResponse> query(){
+        List<ApiQueryResponse> list = employeeRepository.findAll().stream()
+                .map(employee -> ApiQueryResponse.builder()
+                        .id(employee.getId())
+                        .value(employee.getEmployeeName())
+                        .build())
+                .toList();
+        return list;
     }
 }

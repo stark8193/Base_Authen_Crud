@@ -1,5 +1,6 @@
 package com.devteria.identity_service.service;
 
+import com.devteria.identity_service.dto.ApiQueryResponse;
 import com.devteria.identity_service.dto.request.JobRequest;
 import com.devteria.identity_service.dto.response.JobResponse;
 import com.devteria.identity_service.entity.Job;
@@ -78,5 +79,15 @@ public class JobService {
     public void delete(String id) {
         jobRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
         jobRepository.deleteById(id);
+    }
+
+    public List<ApiQueryResponse> query(){
+        List<ApiQueryResponse> list = jobRepository.findAll().stream()
+                .map(job -> ApiQueryResponse.builder()
+                        .id(job.getId())
+                        .value(job.getJobName())
+                        .build())
+                .toList();
+        return list;
     }
 }

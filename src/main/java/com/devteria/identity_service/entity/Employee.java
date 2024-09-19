@@ -58,11 +58,8 @@ public class Employee{
     @Column(name = "bank_account_number")
     Long bankAccountNumber;
 
-    @Column(name = "bank")
-    String bank;
-
-    @Column(name = "bank_branch")
-    String bankBranch;
+    @Column(name = "bank_name")
+    String bankName;
 
     @Column(name = "photo_path")
     String photoPath;

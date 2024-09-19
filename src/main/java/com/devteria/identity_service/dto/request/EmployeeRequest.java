@@ -47,9 +47,7 @@ public class EmployeeRequest {
 
     Long bankAccountNumber;
 
-    String bank;
-
-    String bankBranch;
+    String bankName;
 
     String photoPath;
 

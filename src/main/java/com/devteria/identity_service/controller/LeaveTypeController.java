@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/leave-type")
@@ -30,9 +31,17 @@ public class LeaveTypeController {
     }
 
     @GetMapping
-    ApiResponse<List<LeaveTypeResponse>> getAllLeaveType() {
-        return ApiResponse.<List<LeaveTypeResponse>>builder()
-                .data(leaveTypeService.getAllLeaveType())
+    ApiResponse<Map<String, Object>> getAllLeaveType(
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
+            @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
+    ) {
+//        return ApiResponse.<List<LeaveTypeResponse>>builder()
+//                .data(leaveTypeService.getAllLeaveType())
+//                .build();
+        Map<String, Object> data = leaveTypeService.getAllLeaveType(page, size, sort);
+        return ApiResponse.<Map<String, Object>>builder()
+                .data(data)
                 .build();
     }
 

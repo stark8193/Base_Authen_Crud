@@ -29,8 +29,7 @@ public class EmployeeResponse {
     Long cccd;
     String address;
     Long bankAccountNumber;
-    String bank;
-    String bankBranch;
+    String bankName;
     String photoPath;
     Role role;
     Department department;

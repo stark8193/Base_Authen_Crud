@@ -1,5 +1,6 @@
 package com.devteria.identity_service.service;
 
+import com.devteria.identity_service.dto.ApiQueryResponse;
 import com.devteria.identity_service.dto.request.LeaveTypeRequest;
 import com.devteria.identity_service.dto.response.LeaveTypeResponse;
 import com.devteria.identity_service.entity.LeaveType;
@@ -11,9 +12,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +39,30 @@ public class LeaveTypeService {
         return leaveTypeMapper.toLeaveTypeResponse(leaveType);
     }
 
-    public List<LeaveTypeResponse> getAllLeaveType(){
-        return leaveTypeRepository.findAll().stream().map(leaveTypeMapper::toLeaveTypeResponse).toList();
+    public Map<String, Object> getAllLeaveType(Integer page, Integer size, String sort){
+        Sort sortable = null;
+        if (sort.equalsIgnoreCase("ASC")) {
+            sortable = Sort.by("leaveTypeName").ascending();
+        } else if (sort.equalsIgnoreCase("DESC")) {
+            sortable = Sort.by("leaveTypeName").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sortable);
+
+        Page<LeaveType> leaveTypePage = leaveTypeRepository.findAll(pageable);
+
+        List<LeaveTypeResponse> leaveTypes = leaveTypePage.getContent()
+                .stream()
+                .map(leaveTypeMapper::toLeaveTypeResponse)
+                .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", leaveTypes);
+        response.put("totalItems", leaveTypePage.getTotalElements());
+        response.put("totalPages", leaveTypePage.getTotalPages());
+        response.put("currentPage", leaveTypePage.getNumber());
+
+        return response;
     }
 
     public LeaveTypeResponse getLeaveType(String id){
@@ -61,6 +90,16 @@ public class LeaveTypeService {
 
     public boolean existedById(String id){
         return leaveTypeRepository.existsById(id);
+    }
+
+    public List<ApiQueryResponse> query(){
+        List<ApiQueryResponse> list = leaveTypeRepository.findAll().stream()
+                .map(leaveType -> ApiQueryResponse.builder()
+                        .id(leaveType.getId())
+                        .value(leaveType.getLeaveTypeName())
+                        .build())
+                .toList();
+        return list;
     }
 
 }

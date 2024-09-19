@@ -17,7 +17,7 @@ spring:
     time-zone: Asia/Ho_Chi_Minh
 jwt:
   signerKey: "TgxvdxikRZHZ2cuJzW2ovQHn2iVTROFecLmYHi8ZJRe8cWejAU7WF+rw4zaInvgL"
-  valid-duration: 3600 # in second
+  valid-duration: 36000 # in second
   refreshable-duration: 36000 # in seconds
 notification:
   email:

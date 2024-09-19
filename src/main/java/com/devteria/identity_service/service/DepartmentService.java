@@ -1,4 +1,5 @@
 package com.devteria.identity_service.service;
+import com.devteria.identity_service.dto.ApiQueryResponse;
 import com.devteria.identity_service.dto.request.DepartmentRequest;
 import com.devteria.identity_service.dto.response.DepartmentAndCountEmpResponse;
 import com.devteria.identity_service.dto.response.DepartmentResponse;
@@ -91,4 +92,13 @@ public class DepartmentService {
         departmentRepository.deleteById(id);
     }
 
+    public List<ApiQueryResponse> query(){
+        List<ApiQueryResponse> list = departmentRepository.findAll().stream()
+                .map(department -> ApiQueryResponse.builder()
+                        .id(department.getId())
+                        .value(department.getDepName())
+                        .build())
+                .toList();
+        return list;
+    }
 }
