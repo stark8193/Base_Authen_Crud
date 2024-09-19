@@ -54,7 +54,7 @@ public class JobService {
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("jobs", jobs);
+        response.put("data", jobs);
         response.put("totalItems", jobPage.getTotalElements());
         response.put("totalPages", jobPage.getTotalPages());
         response.put("currentPage", jobPage.getNumber());

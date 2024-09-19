@@ -64,7 +64,7 @@ public class DepartmentService {
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("departments", departments);
+        response.put("data", departments);
         response.put("totalItems", depPage.getTotalElements());
         response.put("totalPages", depPage.getTotalPages());
         response.put("currentPage", depPage.getNumber());

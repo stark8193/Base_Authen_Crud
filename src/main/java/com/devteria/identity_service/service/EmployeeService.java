@@ -101,7 +101,7 @@ public class EmployeeService {
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("employees", employees);
+        response.put("data", employees);
         response.put("totalItems", employeePage.getTotalElements());
         response.put("totalPages", employeePage.getTotalPages());
         response.put("currentPage", employeePage.getNumber());        

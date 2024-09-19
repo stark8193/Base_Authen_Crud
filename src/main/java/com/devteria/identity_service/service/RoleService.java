@@ -1,5 +1,6 @@
 package com.devteria.identity_service.service;
 
+import com.devteria.identity_service.dto.ApiQueryResponse;
 import com.devteria.identity_service.dto.request.RoleRequest;
 import com.devteria.identity_service.dto.response.RoleResponse;
 import com.devteria.identity_service.dto.response.UserResponse;
@@ -67,7 +68,15 @@ public class RoleService {
         return roleMapper.toRoleResponse(
                 roleRepository.findById(id).orElseThrow());
     }
-
+    public List<ApiQueryResponse> query(){
+        List<ApiQueryResponse> list = roleRepository.findAll().stream()
+                .map(role -> ApiQueryResponse.builder()
+                        .id(role.getId())
+                        .value(role.getRoleName())
+                        .build())
+                .toList();
+        return list;
+    }
     public void delete(String role) {
         roleRepository.deleteById(role);
     }

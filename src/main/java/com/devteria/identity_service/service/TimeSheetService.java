@@ -69,7 +69,7 @@ public class TimeSheetService {
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("timeSheets", timeSheets);
+        response.put("data", timeSheets);
         response.put("totalItems", timeSheetPage.getTotalElements());
         response.put("totalPages", timeSheetPage.getTotalPages());
         response.put("currentPage", timeSheetPage.getNumber());

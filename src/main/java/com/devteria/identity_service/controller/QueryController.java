@@ -1,10 +1,7 @@
 package com.devteria.identity_service.controller;
 
 import com.devteria.identity_service.dto.ApiQueryResponse;
-import com.devteria.identity_service.service.DepartmentService;
-import com.devteria.identity_service.service.EmployeeService;
-import com.devteria.identity_service.service.JobService;
-import com.devteria.identity_service.service.LeaveTypeService;
+import com.devteria.identity_service.service.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,6 +23,9 @@ public class QueryController {
     JobService jobService;
     LeaveTypeService leaveTypeService;
 
+    RoleService roleService;
+
+
     @GetMapping("/department")
     List<ApiQueryResponse> queryDepart(){
         return departmentService.query();
@@ -44,5 +44,9 @@ public class QueryController {
     @GetMapping("/job")
     List<ApiQueryResponse> queryJob(){
         return jobService.query();
+    }
+    @GetMapping("/role")
+    List<ApiQueryResponse> queryRole(){
+        return roleService.query();
     }
 }
