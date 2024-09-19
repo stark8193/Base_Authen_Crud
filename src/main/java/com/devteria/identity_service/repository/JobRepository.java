@@ -1,10 +1,10 @@
 package com.devteria.identity_service.repository;
 
-import com.devteria.identity_service.entity.Employee;
+import com.devteria.identity_service.entity.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<Employee, String> {
-    long countByDepartmentId(String id);
+public interface JobRepository extends JpaRepository<Job, String> {
+
 }

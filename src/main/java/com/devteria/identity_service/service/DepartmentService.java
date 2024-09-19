@@ -1,5 +1,6 @@
 package com.devteria.identity_service.service;
 import com.devteria.identity_service.dto.request.DepartmentRequest;
+import com.devteria.identity_service.dto.response.DepartmentAndCountEmpResponse;
 import com.devteria.identity_service.dto.response.DepartmentResponse;
 import com.devteria.identity_service.entity.Department;
 import com.devteria.identity_service.exception.AppException;
@@ -27,6 +28,8 @@ import java.util.Map;
 public class DepartmentService {
     DepartmentRepository departmentRepository;
     DepartmentMapper departmentMapper;
+    EmployeeService employeeService;
+
     public DepartmentResponse createDepartment(DepartmentRequest request) {
         Department department = departmentMapper.toDepartment(request);
 
@@ -49,16 +52,22 @@ public class DepartmentService {
 
         Page<Department> depPage = departmentRepository.findAll(pageable);
 
-        List<DepartmentResponse> departments = depPage.getContent()
+        List<DepartmentAndCountEmpResponse> departments = depPage.getContent()
                 .stream()
-                .map(departmentMapper::toDepartmentResponse)
+                .map(department -> DepartmentAndCountEmpResponse.builder()
+                        .id(department.getId())
+                        .depName(department.getDepName())
+                        .depShortName(department.getDepShortName())
+                        .count(employeeService.empCount(department.getId()))
+                        .build())
                 .toList();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("employees", departments);
+        response.put("departments", departments);
         response.put("totalItems", depPage.getTotalElements());
         response.put("totalPages", depPage.getTotalPages());
         response.put("currentPage", depPage.getNumber());
+
 
         return response;
     }
@@ -76,8 +85,10 @@ public class DepartmentService {
 
         return departmentMapper.toDepartmentResponse(updatedEmployee);
     }
-    public void delete(String dep) {
-        departmentRepository.deleteById(dep);
+
+    public void delete(String id) {
+        departmentRepository.findById(id).orElseThrow(()->new AppException(ErrorCode.NOT_FOUND));
+        departmentRepository.deleteById(id);
     }
 
 }

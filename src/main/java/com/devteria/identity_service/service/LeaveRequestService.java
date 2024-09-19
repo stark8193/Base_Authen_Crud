@@ -1,7 +1,6 @@
 package com.devteria.identity_service.service;
 
 import com.devteria.identity_service.dto.request.LeaveRequestRequest;
-import com.devteria.identity_service.dto.request.LeaveTypeRequest;
 import com.devteria.identity_service.dto.response.LeaveRequestResponse;
 import com.devteria.identity_service.entity.LeaveRequest;
 import com.devteria.identity_service.exception.AppException;

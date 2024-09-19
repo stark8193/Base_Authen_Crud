@@ -41,16 +41,22 @@ public class DepartmentController {
     }
 
     @GetMapping("/{depId}")
-    ApiResponse<DepartmentResponse> getEmp(@PathVariable("depId") String empId) {
+    ApiResponse<DepartmentResponse> getDep(@PathVariable("depId") String depId) {
         return ApiResponse.<DepartmentResponse>builder()
-                .data(departmentService.getDep(empId))
+                .data(departmentService.getDep(depId))
                 .build();
     }
 
     @PutMapping("/{depId}")
-    ApiResponse<DepartmentResponse> updateEmp(@PathVariable("depId") String empId, @RequestBody DepartmentRequest request) {
+    ApiResponse<DepartmentResponse> updateDep(@PathVariable("depId") String depId, @RequestBody DepartmentRequest request) {
         return ApiResponse. <DepartmentResponse>builder()
-                .data(departmentService.updateDep(empId, request))
+                .data(departmentService.updateDep(depId, request))
                 .build();
+    }
+
+    @DeleteMapping("/{depId}")
+    ApiResponse<String> delete(@PathVariable String depId) {
+        departmentService.delete(depId);
+        return ApiResponse.<String>builder().data("Depart has been deleted").build();
     }
 }

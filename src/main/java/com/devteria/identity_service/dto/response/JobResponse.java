@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentResponse {
+public class JobResponse {
     String id;
-    String depName;
-    String depShortName;
+    String jobName;
+    String description;
 }

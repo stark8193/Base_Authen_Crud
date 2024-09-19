@@ -8,8 +8,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentResponse {
+public class DepartmentAndCountEmpResponse {
     String id;
     String depName;
     String depShortName;
+    Long count;
 }

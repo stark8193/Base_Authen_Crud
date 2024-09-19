@@ -1,6 +1,7 @@
 package com.devteria.identity_service.dto.response;
 
 import com.devteria.identity_service.entity.Department;
+import com.devteria.identity_service.entity.Job;
 import com.devteria.identity_service.entity.Role;
 import com.devteria.identity_service.entity.enumeration.EmpStatus;
 import com.devteria.identity_service.entity.enumeration.Gender;
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class EmployeeResponse {
+    String id;
     String employeeName;
     LocalDate birthDate;
     Gender gender;
@@ -32,4 +34,5 @@ public class EmployeeResponse {
     String photoPath;
     Role role;
     Department department;
+    Job job;
 }

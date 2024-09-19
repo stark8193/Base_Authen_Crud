@@ -126,4 +126,8 @@ public class EmployeeService {
     public boolean existedById(String id){
         return employeeRepository.existsById(id);
     }
+
+    public long empCount(String departId){
+        return employeeRepository.countByDepartmentId(departId);
+    }
 }

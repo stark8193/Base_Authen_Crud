@@ -1,4 +1,4 @@
-package com.devteria.identity_service.dto.response;
+package com.devteria.identity_service.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,8 +8,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentResponse {
-    String id;
-    String depName;
-    String depShortName;
+public class JobRequest {
+    String jobName;
+    String description;
 }
