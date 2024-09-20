@@ -2,7 +2,6 @@ package com.devteria.identity_service.controller;
 
 import com.devteria.identity_service.dto.request.ApiResponse;
 import com.devteria.identity_service.dto.request.LeaveTypeRequest;
-import com.devteria.identity_service.dto.request.UserUpdateRequest;
 import com.devteria.identity_service.dto.response.LeaveTypeResponse;
 import com.devteria.identity_service.service.LeaveTypeService;
 import jakarta.validation.Valid;
@@ -12,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,9 +34,6 @@ public class LeaveTypeController {
             @RequestParam(name = "size", required = false, defaultValue = "5") Integer size,
             @RequestParam(name = "sort", required = false, defaultValue = "ASC") String sort
     ) {
-//        return ApiResponse.<List<LeaveTypeResponse>>builder()
-//                .data(leaveTypeService.getAllLeaveType())
-//                .build();
         Map<String, Object> data = leaveTypeService.getAllLeaveType(page, size, sort);
         return ApiResponse.<Map<String, Object>>builder()
                 .data(data)

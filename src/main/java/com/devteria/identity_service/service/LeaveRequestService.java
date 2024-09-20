@@ -11,9 +11,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -36,9 +42,56 @@ public class LeaveRequestService {
         return  leaveRequestMapper.toLeaveRequestResponse(leaveRequest);
     }
 
-    public List<LeaveRequestResponse> getAllLeaveRequest(){
-        return leaveRequestRepository.findAll().stream()
-                .map(leaveRequestMapper::toLeaveRequestResponse).toList();
+    public Map<String, Object> getAllLeaveRequest(Integer page, Integer size, String sort){
+        Sort sortable = null;
+        if (sort.equalsIgnoreCase("ASC")) {
+            sortable = Sort.by("endDate").ascending();
+        } else if (sort.equalsIgnoreCase("DESC")) {
+            sortable = Sort.by("endDate").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sortable);
+
+        Page<LeaveRequest> leaveRequestPage = leaveRequestRepository.findAll(pageable);
+
+        List<LeaveRequestResponse> leaveRequests = leaveRequestPage.getContent()
+                .stream()
+                .map(leaveRequestMapper::toLeaveRequestResponse)
+                .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", leaveRequests);
+        response.put("totalItems", leaveRequestPage.getTotalElements());
+        response.put("totalPages", leaveRequestPage.getTotalPages());
+        response.put("currentPage", leaveRequestPage.getNumber());
+
+        return response;
+    }
+
+    public Map<String, Object> getAllLeaveRequestByEmpId(Integer page, Integer size, String sort, String employeeId){
+        Sort sortable = null;
+        if (sort.equalsIgnoreCase("ASC")) {
+            sortable = Sort.by("endDate").ascending();
+        } else if (sort.equalsIgnoreCase("DESC")) {
+            sortable = Sort.by("endDate").descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sortable);
+
+        Page<LeaveRequest> leaveRequestPage = leaveRequestRepository.findAllByEmployeeId(employeeId,pageable);
+
+        List<LeaveRequestResponse> leaveRequests = leaveRequestPage.getContent()
+                .stream()
+                .map(leaveRequestMapper::toLeaveRequestResponse)
+                .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", leaveRequests);
+        response.put("totalItems", leaveRequestPage.getTotalElements());
+        response.put("totalPages", leaveRequestPage.getTotalPages());
+        response.put("currentPage", leaveRequestPage.getNumber());
+
+        return response;
     }
 
     public LeaveRequestResponse getLeaveRequest(String id){

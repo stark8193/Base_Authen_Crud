@@ -77,6 +77,36 @@ public class TimeSheetService {
         return response;
     }
 
+    public Map<String, Object> getAllTimeSheetsWithPageByEmpl(Integer page, Integer size, String sort, String employeeId) {
+        Sort sortable;
+        if (sort.equalsIgnoreCase("ASC")) {
+            sortable = Sort.by("timeIn").ascending();
+        } else if (sort.equalsIgnoreCase("DESC")) {
+            sortable = Sort.by("timeIn").descending();
+        } else {
+            throw new IllegalArgumentException("Invalid sort order: " + sort);
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sortable);
+
+        // Fetch TimeSheet by employeeId with pagination
+        Page<TimeSheet> timeSheetPage = timeSheetRepository.findAllByEmployeeId(employeeId, pageable);
+
+        List<TimeSheetResponse> timeSheets = timeSheetPage.getContent()
+                .stream()
+                .map(timeSheetMapper::toTimeSheetResponse)
+                .toList();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", timeSheets);
+        response.put("totalItems", timeSheetPage.getTotalElements());
+        response.put("totalPages", timeSheetPage.getTotalPages());
+        response.put("currentPage", timeSheetPage.getNumber());
+
+        return response;
+    }
+
+
     public TimeSheetResponse updateTimeSheet(String id, TimeSheetRequest request){
         TimeSheet timeSheet = timeSheetRepository.findById(id).orElseThrow();
 

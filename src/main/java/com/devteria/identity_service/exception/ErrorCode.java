@@ -25,6 +25,7 @@ public enum ErrorCode {
     LEAVE_TYPE_NOT_EXISTED(1014, "LEAVE_TYPE_NOT_EXISTED", HttpStatus.BAD_REQUEST),
     CANNOT_CREATE_LEAVE_REQUEST(1015, "CANNOT_CREATE_LEAVE_REQUEST", HttpStatus.BAD_REQUEST),
     LEAVE_REQUEST_NOT_EXISTED(1016, "LEAVE_REQUEST_NOT_EXISTED", HttpStatus.BAD_REQUEST),
+    ACCOUNT_EXPIRED(1017, "tài khoản hết hiệu lực", HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatusCode statusCode) {

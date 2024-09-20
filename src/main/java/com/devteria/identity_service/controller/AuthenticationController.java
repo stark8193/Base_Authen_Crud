@@ -1,24 +1,24 @@
 package com.devteria.identity_service.controller;
 
-import java.text.ParseException;
-
-import com.devteria.identity_service.entity.User;
+import com.devteria.identity_service.dto.request.*;
+import com.devteria.identity_service.dto.response.AuthenticationResponse;
+import com.devteria.identity_service.dto.response.IntrospectResponse;
+import com.devteria.identity_service.entity.enumeration.EmpStatus;
+import com.devteria.identity_service.exception.AppException;
+import com.devteria.identity_service.exception.ErrorCode;
+import com.devteria.identity_service.service.AuthenticationService;
 import com.devteria.identity_service.service.EmployeeService;
 import com.devteria.identity_service.service.UserService;
+import com.nimbusds.jose.JOSEException;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devteria.identity_service.dto.request.*;
-import com.devteria.identity_service.dto.response.AuthenticationResponse;
-import com.devteria.identity_service.dto.response.IntrospectResponse;
-import com.devteria.identity_service.service.AuthenticationService;
-import com.nimbusds.jose.JOSEException;
-
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
@@ -35,6 +35,9 @@ public class AuthenticationController {
         var user = userService.getUserByUsername(request);
         var employee = employeeService.getEmp(user.getEmployee().getId());
 
+        if(employee.getEmployeeStatus() == EmpStatus.STOP){
+            throw new AppException(ErrorCode.ACCOUNT_EXPIRED);
+        }
         return ApiResponse.<AuthenticationResponse>builder().data(
                 AuthenticationResponse.builder()
                         .employee(employee)
